@@ -11,8 +11,7 @@ interface State {
   members: Member[],
   memberList: Member[],
   sortOrders: SortOrders,
-  sortKey: string,
-  searchText: string
+  sortKey: string
 }
 interface Props {
 
@@ -21,7 +20,6 @@ interface DHeadProps {
   columns: string[];
   sortKey: string;
   sortOrders: SortOrders;
-  searchText: string;
   filter(event: React.FormEvent): void;
   sortBy(name: string): void; 
 }
@@ -39,14 +37,12 @@ export default class MemberList extends React.Component<Props, State> {
       members: [],
       memberList: [],
       sortOrders: new SortOrders({id: 1, name: 1, admin: 1, progress: 1, address: 1}),
-      sortKey: "",
-      searchText: ""
+      sortKey: ""
     }
    }
 
   filter = (event: React.FormEvent) => {
     const filter: string = (event.target as HTMLInputElement).value;
-    this.setState({searchText: filter})
     let members = this.state.memberList;
     members = members.filter((member: Member) => {
       return member.isIncluded(filter)
@@ -86,7 +82,6 @@ export default class MemberList extends React.Component<Props, State> {
           <Col xs={2}>
             <Form.Control as="input"
               type="text"
-              value={props.searchText}
               id="search"
               className="filter"
               placeholder="フィルタ文字列"
@@ -166,7 +161,6 @@ export default class MemberList extends React.Component<Props, State> {
         <this.dhead
           columns={this.state.columns}
           sortKey={this.state.sortKey}
-          searchText={this.state.searchText}
           sortOrders={this.state.sortOrders}
           filter= {this.filter}
           sortBy= {this.sortBy}
