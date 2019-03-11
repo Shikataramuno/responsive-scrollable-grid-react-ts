@@ -21,7 +21,7 @@ interface DHeadProps {
   sortKey: string;
   sortOrders: SortOrders;
   filter(event: React.FormEvent): void;
-  sortBy(name: string): void; 
+  sortBy(name: string, event: React.MouseEvent): void; 
 }
 interface DListProps {
   members: Member[];
@@ -49,8 +49,9 @@ export default class MemberList extends React.Component<Props, State> {
     });
     this.setState({members: members})
   }
-  sortBy = (name: string) => {
-    let order = this.state.sortOrders.getOrder(name)
+  sortBy = (name: string, e: React.MouseEvent) => {
+    console.log('X : ' + e.pageX + ', Y : ' + e.pageY);
+    let order = this.state.sortOrders.getOrder(name);
     order = order * -1;
     let members = this.state.members;
     members = members.slice().sort((a: Member,b: Member) => {
@@ -101,7 +102,7 @@ export default class MemberList extends React.Component<Props, State> {
               return (
                 <div className={className}
                   key={col}
-                  onClick={() => props.sortBy(name)}>
+                  onClick={(e: React.MouseEvent) => props.sortBy(name, e)}>
                   {name}
                   {arrow}
                 </div>
