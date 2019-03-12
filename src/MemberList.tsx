@@ -50,17 +50,18 @@ export default class MemberList extends React.Component<Props, State> {
     this.setState({members: members})
   }
   sortBy = (name: string, e: React.MouseEvent) => {
-    console.log('X : ' + e.pageX + ', Y : ' + e.pageY);
+    // console.log('X : ' + e.pageX + ', Y : ' + e.pageY);
     let order = this.state.sortOrders.getOrder(name);
-    order = order * -1;
+    console.log('order : ' + order);
+    // order = order * -1;
     let members = this.state.members;
     members = members.slice().sort((a: Member,b: Member) => {
       const aVal: string = a.getValue(this.state.sortKey);
       const bVal: string = b.getValue(this.state.sortKey);
-      return (aVal === bVal ? 0 : aVal > bVal ? 1 : -1) * order;
+      return (aVal === bVal ? 0 : aVal < bVal ? -1 : 1) * order;
     });
-    this.setState({sortKey: name});
     this.state.sortOrders.selectKey(name);
+    this.setState({sortKey: name});
     this.setState({members: members})
 
   }
