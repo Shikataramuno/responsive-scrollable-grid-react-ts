@@ -195,12 +195,12 @@
     margin-left: 5px;
     opacity: 0.0;
   }
-  .arrow.asc {
+  .arrow.dsc {
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;
     border-bottom: 4px solid #000;
   }
-  .arrow.dsc {
+  .arrow.asc {
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;
     border-top: 4px solid #000;
@@ -211,12 +211,12 @@
   div.active .arrow {
     opacity: 1;
   }
-  div.active .arrow.asc {
+  div.active .arrow.dsc {
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;
     border-bottom: 4px solid rgb(55, 11, 177);
   }
-  div.active .arrow.dsc {
+  div.active .arrow.asc {
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;
     border-top: 4px solid rgb(55, 11, 177);
