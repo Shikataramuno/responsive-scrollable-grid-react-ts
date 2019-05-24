@@ -87,7 +87,7 @@ export default class MemberList extends React.Component<Props, State> {
         <div className="wrapper attributes header">
           {
             this.columns.map((name: string, col: number) => {
-              const className = props.sortKey === name ? "active " + name : name
+              const className: string = props.sortKey === name ? "active " + name : name
               const arrow =
                 props.sortKey === name ? 
                 (props.sortOrders.getOrder(name) > 0? <span className={"arrow asc"}></span> : <span className="arrow dsc"></span>) :
@@ -110,10 +110,10 @@ export default class MemberList extends React.Component<Props, State> {
     return (
       <div className="data-field">
         {
-          props.members.map((member, row: number) => {
+          props.members.map((member: Member, row: number) => {
             return (
              <div className="table-row wrapper attributes data" key={row}>{
-                this.columns.map((name,idx) => {
+                this.columns.map((name: string, idx: number) => {
                   if(name === "admin") {
                     return (
                       <div className={name} key={idx}>
