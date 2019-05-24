@@ -7,9 +7,7 @@ import './MemberList.css';
 import { FormControl } from 'react-bootstrap';
 
 interface State {
-  columns: string[],
   members: Member[],
-  memberList: Member[],
   sortOrders: SortOrders,
   sortKey: string
 }
@@ -17,7 +15,6 @@ interface Props {
 
 }
 interface DHeadProps {
-  columns: string[];
   sortKey: string;
   sortOrders: SortOrders;
   filter(event: React.FormEvent): void;
@@ -25,17 +22,15 @@ interface DHeadProps {
 }
 interface DListProps {
   members: Member[];
-  columns: string[];
   handleAdminChanged(member: Member): void;
 }
 export default class MemberList extends React.Component<Props, State> {
+  columns: string[] = ['id', 'name', 'admin', 'address', 'progress']
+  memberList: Member[] = []
   constructor(props: Props) {
-    // super(...arguments);
     super(props);
     this.state = {
-      columns: ['id', 'name', 'admin', 'address', 'progress'],
       members: [],
-      memberList: [],
       sortOrders: new SortOrders({id: 1, name: 1, admin: 1, progress: 1, address: 1}),
       sortKey: ""
     }
@@ -43,18 +38,16 @@ export default class MemberList extends React.Component<Props, State> {
 
   filter = (event: React.FormEvent) => {
     const filter: string = (event.target as HTMLInputElement).value;
-    let members = this.state.memberList;
+    let members: Member[] = this.memberList;
     members = members.filter((member: Member) => {
       return member.isIncluded(filter)
     });
     this.setState({members: members})
   }
   sortBy = (name: string, e: React.MouseEvent) => {
-    // console.log('X : ' + e.pageX + ', Y : ' + e.pageY);
-    let order = this.state.sortOrders.getOrder(name);
+    let order: number = this.state.sortOrders.getOrder(name);
     console.log('order : ' + order);
-    // order = order * -1;
-    let members = this.state.members;
+    let members: Member[] = this.state.members;
     members = members.slice().sort((a: Member,b: Member) => {
       const aVal: string = a.getValue(this.state.sortKey);
       const bVal: string = b.getValue(this.state.sortKey);
@@ -63,14 +56,13 @@ export default class MemberList extends React.Component<Props, State> {
     this.state.sortOrders.selectKey(name);
     this.setState({sortKey: name});
     this.setState({members: members})
-
   }
   handleAdminChanged = (member: Member) => {
     console.log(member);
-    let list = this.state.members;
-    const target = list.find((rec) => {
+    let list: Member[] = this.state.members;
+    const target: Member = list.find((rec) => {
       return rec.id === member.id
-    })
+    })!
     target!.admin = !target!.admin;
     this.setState({members: list})
   }
@@ -94,7 +86,7 @@ export default class MemberList extends React.Component<Props, State> {
         </Row>
         <div className="wrapper attributes header">
           {
-            props.columns.map((name: string, col: number) => {
+            this.columns.map((name: string, col: number) => {
               const className = props.sortKey === name ? "active " + name : name
               const arrow =
                 props.sortKey === name ? 
@@ -121,7 +113,7 @@ export default class MemberList extends React.Component<Props, State> {
           props.members.map((member, row: number) => {
             return (
              <div className="table-row wrapper attributes data" key={row}>{
-                props.columns.map((name,idx) => {
+                this.columns.map((name,idx) => {
                   if(name === "admin") {
                     return (
                       <div className={name} key={idx}>
@@ -161,7 +153,6 @@ export default class MemberList extends React.Component<Props, State> {
     return (
       <div className="container-fluid">
         <this.dhead
-          columns={this.state.columns}
           sortKey={this.state.sortKey}
           sortOrders={this.state.sortOrders}
           filter= {this.filter}
@@ -169,7 +160,6 @@ export default class MemberList extends React.Component<Props, State> {
         />
         <this.dlist
           members = {this.state.members}
-          columns = {this.state.columns}
           handleAdminChanged={this.handleAdminChanged}
         />
       </div>
@@ -207,7 +197,6 @@ export default class MemberList extends React.Component<Props, State> {
       new Member({id: 25, name: 'yyyy', admin: false, progress: 70, address: 'yyyy@shikataramuno.com'}),
       new Member({id: 26, name: 'zzzz', admin: true, progress: 80, address: 'zzzz@shikataramuno.com'})
     ];
-    this.setState({memberList: list})
     this.setState({members: list});
   }
 }
